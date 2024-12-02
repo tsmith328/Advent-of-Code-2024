@@ -1,3 +1,6 @@
 Advent-of-Code-2024.code-workspace
 .vscode/settings.json
 *input.txt
+*.lock
+.rustc_info.json
+target/
