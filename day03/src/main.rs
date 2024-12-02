@@ -31,10 +31,10 @@ fn parse_input(input: &str) -> Vec<Vec<i32>> {
     reports
 }
 
-fn part1(_: Vec<Vec<i32>>) -> i32 {
-    0
+fn part1() -> () {
+    
 }
 
-fn part2(_: Vec<Vec<i32>>) -> i32 {
-    0
+fn part2() -> () {
+    
 }
