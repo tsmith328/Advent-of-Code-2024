@@ -6,31 +6,17 @@ const TEST_FILE: &str = "input_test.txt";
 const INPUT_FILE: &str = "input.txt";
 
 fn main() {
-    println!("Starting Part 1 test...");
-
     let mut part1_output = part1(parse_input(TEST_FILE));
-
     println!("Part 1 Test ouput: {part1_output}");
-    println!("");
-    //return;
-    println!("Starting full Part 1 input...");
     part1_output = part1(parse_input(INPUT_FILE));
     println!("Part 1 Output: {part1_output}");
-
-
-
-    println!("Starting Part 2 test...");
+    
+    println!("---------------------------------------");
 
     let mut part2_output = part2(parse_input(TEST_FILE));
-
     println!("Part 2 Test ouput: {part2_output}");
-    println!("");
-    //return;
-    println!("Starting full Part 2 input...");
     part2_output = part2(parse_input(INPUT_FILE));
     println!("Part 2 Output: {part2_output}");
-
-
 }
 
 fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
