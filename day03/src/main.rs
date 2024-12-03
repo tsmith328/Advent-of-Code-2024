@@ -1,6 +1,6 @@
 use std::fs;
 use std::str;
-
+use regex::Regex;
 
 const TEST_FILE: &str = "input_test.txt";
 const INPUT_FILE: &str = "input.txt";
@@ -19,22 +19,56 @@ fn main() {
     println!("Part 2 Output: {part2_output}");
 }
 
-fn parse_input(input: &str) -> Vec<Vec<i32>> {
-    let file_contents = fs::read_to_string(input).expect("File should exist.");
-    let mut reports: Vec<Vec<i32>> = Vec::new();
+fn parse_input(input: &str) -> String {
+    let mut file_contents = fs::read_to_string(input).expect("File should exist.");
+    file_contents = file_contents.replace("\r","");
+    file_contents = file_contents.replace("\n", "");
+    return file_contents;
+}
 
-    for line in file_contents.lines(){
-        let levels = line.split_whitespace().map(|x| i32::from_str_radix(x, 10).unwrap()).collect();
-        reports.push(levels);
+fn part1(input: String) -> i32 {
+    let pattern = r"mul\(\d\d?\d?,\d\d?\d?\)";
+    let mut total = 0;
+    let re = Regex::new(pattern).unwrap();
+    let hits = re.find_iter(&input);
+
+    for hit in hits {
+        let hit_str = hit.as_str();
+        //println!("{hit_str}");
+        let hit_str = hit_str.replace("mul(", "");
+        let hit_str = hit_str.replace(")","");
+        let mut operands: Vec<&str> = hit_str.split(",").collect();
+        let left_operand = i32::from_str_radix(operands.pop().unwrap(), 10).unwrap();
+        let right_operand = i32::from_str_radix(operands.pop().unwrap(), 10).unwrap();
+        total += left_operand * right_operand;
     }
-
-    reports
+ 
+    total
 }
 
-fn part1() -> () {
-    
-}
+fn part2(input: String) -> i32 {
+    let pattern = r"mul\(\d\d?\d?,\d\d?\d?\)|do\(\)|don't\(\)";
+    let mut total = 0;
+    let re = Regex::new(pattern).unwrap();
+    let hits = re.find_iter(&input);
+    let mut active = true;
 
-fn part2() -> () {
-    
+    for hit in hits {
+        let hit_str = hit.as_str();
+        //println!("{hit_str}");
+        if hit_str == r"do()" {
+            active = true;
+        } else if hit_str == r"don't()" {
+            active = false;
+        } else if active {
+            let hit_str = hit_str.replace("mul(", "");
+            let hit_str = hit_str.replace(")","");
+            let mut operands: Vec<&str> = hit_str.split(",").collect();
+            let left_operand = i32::from_str_radix(operands.pop().unwrap(), 10).unwrap();
+            let right_operand = i32::from_str_radix(operands.pop().unwrap(), 10).unwrap();
+            total += left_operand * right_operand;
+        }
+    }
+ 
+    total
 }
